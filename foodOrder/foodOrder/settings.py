@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'backend.signLogin',  # Include the signLogin app
     'foodOrder',  # Include the foodOrder app
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

@@ -20,4 +20,5 @@ from django.urls import include,path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('backend.signLogin.urls')),  # for signLogin app
+    path('api/auth/', include('backend.signLogin.urls')),
 ]
