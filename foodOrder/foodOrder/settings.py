@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'signLogin',  # Include the signLogin app
+    'backend.signLogin',  # Include the signLogin app
     'foodOrder',  # Include the foodOrder app
 ]
 
