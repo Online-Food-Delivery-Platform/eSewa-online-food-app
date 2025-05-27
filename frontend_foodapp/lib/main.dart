@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend_foodapp/LoginsignUp.dart';
 import 'package:frontend_foodapp/SplashScreen.dart';
 
+
 void main() {
   runApp(MyApp());
 }
@@ -21,7 +22,6 @@ class _MyAppState extends State<MyApp> {
       title: 'YUM YUM',
       color: Colors.amberAccent,
       home: SplashScreen(),
-
       debugShowCheckedModeBanner: false,
     );
   }
