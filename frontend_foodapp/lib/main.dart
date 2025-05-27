@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_foodapp/LoginsignUp.dart';
+import 'package:frontend_foodapp/SplashScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,12 +18,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.light(useMaterial3: true),
-
+      title: 'YUM YUM',
       color: Colors.amberAccent,
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Yum Yum')),
-        body: const Center(child: Text('Welcome to Yum Yum!')),
-      ),
+      home: SplashScreen(),
+
       debugShowCheckedModeBanner: false,
     );
   }
