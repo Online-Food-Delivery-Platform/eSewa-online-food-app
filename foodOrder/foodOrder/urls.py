@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('backend.signLogin.urls')),  # for signLogin app
     path('api/auth/', include('backend.signLogin.urls')),
+    path('api/', include('backend.ordermanagement.urls')),  # 👈 Add this
 ]
