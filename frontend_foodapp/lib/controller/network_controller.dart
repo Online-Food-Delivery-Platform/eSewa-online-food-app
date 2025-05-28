@@ -19,9 +19,13 @@ class NetworkController extends GetxController {
 
     if (result == ConnectivityResult.none) {
       Get.rawSnackbar(
-        title: "No Internet Connection",
-        message: "Please check your internet connection and try again.",
+        messageText: Text(
+          "No Internet Connection",
+          style: TextStyle(color: Colors.red, fontSize: 16),
+        ),
         duration: Duration(days: 1),
+        borderRadius: 10,
+        borderColor: Colors.red,
         backgroundColor: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
         icon: Icon(Icons.wifi_off, color: Colors.red, size: 30),
