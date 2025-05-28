@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_foodapp/LoginsignUp.dart';
 import 'package:frontend_foodapp/SplashScreen.dart';
+import 'package:frontend_foodapp/controller/dependency_injection.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/instance_manager.dart';
+import 'package:frontend_foodapp/controller/network_controller.dart';
+import 'package:frontend_foodapp/controller/dependency_injection.dart';
 
-
-void main() {
-  runApp(MyApp());
+Future<void> main() async {
+  runApp(const MyApp());
+  DependencyInjection.init();
 }
 
 class MyApp extends StatefulWidget {
@@ -17,7 +22,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       theme: ThemeData.light(useMaterial3: true),
       title: 'YUM YUM',
       color: Colors.amberAccent,
