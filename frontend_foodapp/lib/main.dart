@@ -6,8 +6,13 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:frontend_foodapp/controller/network_controller.dart';
 import 'package:frontend_foodapp/controller/dependency_injection.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // Ensure that the Flutter binding is initialized before running the app
+  await Firebase.initializeApp();
+  // Initialize Firebase
   runApp(const MyApp());
   DependencyInjection.init();
 }
