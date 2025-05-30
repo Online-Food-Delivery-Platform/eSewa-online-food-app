@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:iconify_flutter/iconify_flutter.dart'; // For Iconify Widget
-import 'package:iconify_flutter/icons/zondicons.dart'; // for Non Colorful Icons
-import 'package:colorful_iconify_flutter/icons/emojione.dart'; // for Colorful Icons
+import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // for Colorful Icons
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:frontend_foodapp/OTPscreen.dart'; // Import your OTP screen
 
 class LoginsignUp extends StatefulWidget {
   const LoginsignUp({super.key});
@@ -14,6 +13,14 @@ class LoginsignUp extends StatefulWidget {
 }
 
 class _LoginsignUpState extends State<LoginsignUp> {
+  final TextEditingController phoneController = TextEditingController();
+  @override
+  void dispose() {
+    // ✅ Dispose the controller to avoid memory leaks
+    phoneController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,11 +50,13 @@ class _LoginsignUpState extends State<LoginsignUp> {
             child: Column(
               children: [
                 TextFormField(
-                  //controller: phoneController,
+                  controller: phoneController,
                   keyboardType: TextInputType.phone,
                   inputFormatters: [
-                    LengthLimitingTextInputFormatter(10),
-                    FilteringTextInputFormatter.digitsOnly, // allow digits only
+                    LengthLimitingTextInputFormatter(14),
+                    FilteringTextInputFormatter.allow(
+                      RegExp(r'^\+?[0-9]*$'),
+                    ), // allow digits only
                   ],
                   decoration: InputDecoration(
                     filled: true,
@@ -102,7 +111,26 @@ class _LoginsignUpState extends State<LoginsignUp> {
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    //String phoneNumber = "+977" + phoneController.text.trim();
+                    await FirebaseAuth.instance.verifyPhoneNumber(
+                      verificationCompleted:
+                          (PhoneAuthCredential credential) {},
+                      verificationFailed: (FirebaseAuthException ex) {},
+                      codeSent: (String verificationId, int? resendToken) {
+                        // Code sent to the phone number
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) =>
+                                    OTPscreen(verificationId: verificationId),
+                          ),
+                        );
+                      },
+                      codeAutoRetrievalTimeout: (String verificationId) {},
+                      phoneNumber: phoneController.text.toString(),
+                    );
                     // Add your logic here (e.g., navigate to home screen)
                     print('Continue pressed');
                   },
