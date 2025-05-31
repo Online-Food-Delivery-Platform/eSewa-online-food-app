@@ -3,7 +3,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // for Colorful
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:frontend_foodapp/OTPscreen.dart'; // Import your OTP screen
+import 'package:frontend_foodapp/Dashboard.dart';
+import 'package:frontend_foodapp/OTPscreen.dart';
+import 'package:google_sign_in/google_sign_in.dart'; // Import your OTP screen
 
 class LoginsignUp extends StatefulWidget {
   const LoginsignUp({super.key});
@@ -14,6 +16,38 @@ class LoginsignUp extends StatefulWidget {
 
 class _LoginsignUpState extends State<LoginsignUp> {
   final TextEditingController phoneController = TextEditingController();
+  Future<void> login(BuildContext context) async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) return; // Cancelled
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(
+        credential,
+      );
+
+      final user = userCredential.user;
+
+      if (user != null) {
+        // ✅ Navigate to another page after successful login
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => DashboardScreen()),
+        );
+      }
+    } catch (e) {
+      print("Google login error: $e");
+      // You can show a Snackbar or AlertDialog if needed
+    }
+  }
+
   @override
   void dispose() {
     // ✅ Dispose the controller to avoid memory leaks
@@ -161,6 +195,17 @@ class _LoginsignUpState extends State<LoginsignUp> {
                 SizedBox(height: 20),
                 ElevatedButton.icon(
                   onPressed: () {
+                    //logic for Google sign-in
+                    login(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DashboardScreen(),
+                      ),
+                    );
+                    // You can also navigate to another page after login
+                    // For example: Navigator.pushReplacement(
+
                     print('Continue pressed');
                   },
                   icon: FaIcon(
