@@ -4,8 +4,10 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from .serializers import UserSignupSerializer, UserLoginSerializer
+from django.views.decorators.csrf import csrf_exempt
 
 @api_view(['POST'])
+@csrf_exempt
 def signup_view(request):
     serializer = UserSignupSerializer(data=request.data)
     if serializer.is_valid():
@@ -14,6 +16,7 @@ def signup_view(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
+@csrf_exempt
 def signin_view(request):
     serializer = UserLoginSerializer(data=request.data)
     if serializer.is_valid():

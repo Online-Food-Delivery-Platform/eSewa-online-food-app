@@ -227,3 +227,22 @@ def track_order(request, order_id):
 
     serializer = OrderSerializer(order)
     return Response(serializer.data)
+
+
+from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
+from .models import Restaurant, FoodItem
+from .serializers import RestaurantSerializer, FoodItemSerializer
+from .filters import RestaurantFilter, FoodItemFilter
+
+class RestaurantViewSet(viewsets.ModelViewSet):
+    queryset = Restaurant.objects.all()
+    serializer_class = RestaurantSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = RestaurantFilter
+
+class FoodItemViewSet(viewsets.ModelViewSet):
+    queryset = FoodItem.objects.all()
+    serializer_class = FoodItemSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = FoodItemFilter
