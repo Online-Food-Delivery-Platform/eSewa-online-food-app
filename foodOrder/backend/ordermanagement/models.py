@@ -81,11 +81,23 @@ class OrderItem(models.Model):
         return self.food_item.price * self.quantity
 
 class Review(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # rating = models.PositiveIntegerField()
+    # comment = models.TextField()
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE,null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    food_item = models.ForeignKey(FoodItem,null=True,on_delete=models.CASCADE)  # Specific dish
     rating = models.PositiveIntegerField()
-    comment = models.TextField()
+    comment = models.TextField(help_text="Review for the food item")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.restaurant.name} ({self.rating})"
+        return f"{self.user.username} - {self.food_item} ({self.rating})"
+
+class RestaurantReview(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    rating = models.PositiveIntegerField()
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
