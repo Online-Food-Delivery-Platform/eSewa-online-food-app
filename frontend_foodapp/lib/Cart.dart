@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_foodapp/Dashboard.dart';
-import 'package:esewa_flutter/esewa_flutter.dart';
+import 'package:frontend_foodapp/function/Esewa.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -275,31 +275,23 @@ class _CartScreenState extends State<CartScreen> {
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
               child: ElevatedButton(
                 onPressed: () async {
-                  final result = await Esewa.i.init(
-                    context: context,
-                    eSewaConfig: ESewaConfig.dev(
-                      amt: total,
-                      pid: 'PRODUCT-ID-001', // Replace with actual ID
-                      su: 'https://example.com/success', // Replace with your success URL
-                      fu: 'https://example.com/failure', // Replace with your failure URL
-                    ),
-                  );
+                  payWithEsewa();
 
-                  if (result.hasData) {
-                    final response = result.data!;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'Payment Successful! Ref ID: ${response.refId}',
-                        ),
-                      ),
-                    );
-                  } else {
-                    final error = result.error!;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Payment Failed: $error')),
-                    );
-                  }
+                  // if (result.hasData) {
+                  //   final response = result.data!;
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //       content: Text(
+                  //         'Payment Successful! Ref ID: ${response.refId}',
+                  //       ),
+                  //     ),
+                  //   );
+                  // } else {
+                  //   final error = result.error!;
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(content: Text('Payment Failed: $error')),
+                  //   );
+                  // }
                 },
 
                 style: ElevatedButton.styleFrom(
