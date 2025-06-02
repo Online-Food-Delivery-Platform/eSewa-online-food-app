@@ -45,6 +45,14 @@ dependencies:
   firebase_core: ^3.13.1
   firebase_auth: ^5.5.4
   google_sign_in: ^6.3.0
+  geolocator: ^14.0.1
+  geocoding: ^2.0.1
+  image_picker: ^1.0.7
+  firebase_storage: 12.4.6
+  cloud_firestore: 5.6.8
+  shared_preferences: ^2.0.15
+  esewa_flutter: ^2.0.0
+  
 
 dev_dependencies:
   flutter_test:
