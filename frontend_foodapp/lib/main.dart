@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend_foodapp/LoginsignUp.dart';
 import 'package:frontend_foodapp/SplashScreen.dart';
 import 'package:frontend_foodapp/controller/dependency_injection.dart';
+import 'package:frontend_foodapp/wrapper.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:frontend_foodapp/controller/network_controller.dart';
@@ -31,7 +32,8 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData.light(useMaterial3: true),
       title: 'YUM YUM',
       color: Colors.amberAccent,
-      home: SplashScreen(),
+      home: const SplashScreen(), // Use SplashScreen as the initial screen
+      //home: Wrapper(),
       debugShowCheckedModeBanner: false,
     );
   }
