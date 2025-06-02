@@ -10,6 +10,7 @@ admin.site.register(Category)
 admin.site.register(Order)
 admin.site.register(OrderItem)
 admin.site.register(Review)
+# admin.site.register(Ingredient)
 admin.site.register(Profile)
 from django.contrib import admin
 from django.utils.html import format_html
