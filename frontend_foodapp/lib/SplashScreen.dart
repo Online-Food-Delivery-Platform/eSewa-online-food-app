@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     debugPrint("Splash screen started");
 
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 2), () {
       final user = FirebaseAuth.instance.currentUser;
 
       if (user != null) {

@@ -18,8 +18,14 @@ class _LoginsignUpState extends State<LoginsignUp> {
   final TextEditingController phoneController = TextEditingController();
   Future<void> login(BuildContext context) async {
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      if (googleUser == null) return; // Cancelled
+      final googleSignIn = GoogleSignIn();
+
+      // 🔁 Always sign out before attempting new sign in (forces account chooser)
+      await googleSignIn.signOut();
+
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+
+      if (googleUser == null) return; // Login canceled
 
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
@@ -36,15 +42,13 @@ class _LoginsignUpState extends State<LoginsignUp> {
       final user = userCredential.user;
 
       if (user != null) {
-        // ✅ Navigate to another page after successful login
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => DashboardScreen()),
         );
       }
     } catch (e) {
-      print("Google login error: $e");
-      // You can show a Snackbar or AlertDialog if needed
+      print("Google Sign-In Error: $e");
     }
   }
 
@@ -197,12 +201,7 @@ class _LoginsignUpState extends State<LoginsignUp> {
                   onPressed: () {
                     //logic for Google sign-in
                     login(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DashboardScreen(),
-                      ),
-                    );
+
                     // You can also navigate to another page after login
                     // For example: Navigator.pushReplacement(
 

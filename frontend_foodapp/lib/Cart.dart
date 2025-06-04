@@ -3,16 +3,20 @@ import 'package:frontend_foodapp/Dashboard.dart';
 import 'package:frontend_foodapp/function/Esewa.dart';
 import 'package:frontend_foodapp/Maps.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geocoding/geocoding.dart';
 
 class CartScreen extends StatefulWidget {
-  const CartScreen({super.key});
+  final String deliveryLocation;
+
+  const CartScreen({super.key, required this.deliveryLocation});
 
   @override
   State<CartScreen> createState() => _CartScreenState();
 }
 
 class _CartScreenState extends State<CartScreen> {
-  String deliveryLocation = 'Tarakeshwar, Kavresthali';
+  late String deliveryLocation;
+  // Initialize with the delivery location passed from the Dashboard
   String promoCode = '';
 
   List<Map<String, dynamic>> cartItems = [
@@ -27,6 +31,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
+    deliveryLocation = widget.deliveryLocation;
     _calculateTotals();
   }
 
@@ -126,19 +131,30 @@ class _CartScreenState extends State<CartScreen> {
                             );
 
                             if (pickedLocation != null) {
-                              setState(() {
-                                // Update the deliveryLocation string to show latitude and longitude
-                                deliveryLocation =
-                                    'Lat: ${pickedLocation.latitude.toStringAsFixed(6)}, Lng: ${pickedLocation.longitude.toStringAsFixed(6)}';
-                              });
-                              print(
-                                "Latitude: ${pickedLocation.latitude}, Longitude: ${pickedLocation.longitude}", // use the geolocator code to retrieve actual address
-                              );
-                            } else {
-                              print("No location was picked.");
+                              try {
+                                List<Placemark> placemarks =
+                                    await placemarkFromCoordinates(
+                                      pickedLocation.latitude,
+                                      pickedLocation.longitude,
+                                    );
+                                Placemark place = placemarks.first;
+
+                                setState(() {
+                                  deliveryLocation =
+                                      "${place.locality}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.country}";
+                                });
+                              } catch (e) {
+                                setState(() {
+                                  deliveryLocation =
+                                      'Lat: ${pickedLocation.latitude}, Lng: ${pickedLocation.longitude}';
+                                });
+                              }
                             }
                           },
-                          child: const Text("Change Location"),
+                          child: Text(
+                            "Change Location",
+                            style: const TextStyle(fontSize: 14),
+                          ),
                         ),
                       ],
                     ),

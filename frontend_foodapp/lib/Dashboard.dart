@@ -18,18 +18,11 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   String _currentAddress = "Fetching location...";
   late int _currentIndex;
-  late final List<Widget> _pages;
 
   @override
   void initState() {
     super.initState();
     _currentIndex = widget.initialIndex;
-    _pages = [
-      const HomePage(),
-      const CartScreen(),
-      const History(),
-      const Userprofile(),
-    ];
     _getLocation();
   }
 
@@ -154,11 +147,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+  Widget _getBody() {
+    switch (_currentIndex) {
+      case 0:
+        return const HomePage();
+      case 1:
+        return CartScreen(deliveryLocation: _currentAddress);
+      case 2:
+        return const History();
+      case 3:
+        return const Userprofile();
+      default:
+        return const HomePage();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: _pages[_currentIndex],
+      body: _getBody(),
       bottomNavigationBar:
           (_currentIndex == 0 || _currentIndex == 2)
               ? BottomNavigationBar(

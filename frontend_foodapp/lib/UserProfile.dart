@@ -4,12 +4,29 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:frontend_foodapp/Dashboard.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Userprofile extends StatefulWidget {
   const Userprofile({super.key});
 
   @override
   State<Userprofile> createState() => _UserprofileState();
+}
+
+Future<void> signOutFromGoogle() async {
+  try {
+    // Sign out from Firebase
+    await FirebaseAuth.instance.signOut();
+
+    // Disconnect and sign out from Google
+    final googleSignIn = GoogleSignIn();
+    await googleSignIn.disconnect();
+    await googleSignIn.signOut();
+
+    print("User fully signed out from Firebase and Google");
+  } catch (e) {
+    print("Sign out error: $e");
+  }
 }
 
 class _UserprofileState extends State<Userprofile> {
