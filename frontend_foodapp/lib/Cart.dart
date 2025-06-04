@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_foodapp/Dashboard.dart';
 import 'package:frontend_foodapp/function/Esewa.dart';
+import 'package:frontend_foodapp/Maps.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -114,9 +116,27 @@ class _CartScreenState extends State<CartScreen> {
                             ],
                           ),
                         ),
-                        OutlinedButton(
-                          onPressed: () {
-                            // TODO: open map
+                        ElevatedButton(
+                          onPressed: () async {
+                            final LatLng? pickedLocation = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Maps(),
+                              ),
+                            );
+
+                            if (pickedLocation != null) {
+                              setState(() {
+                                // Update the deliveryLocation string to show latitude and longitude
+                                deliveryLocation =
+                                    'Lat: ${pickedLocation.latitude.toStringAsFixed(6)}, Lng: ${pickedLocation.longitude.toStringAsFixed(6)}';
+                              });
+                              print(
+                                "Latitude: ${pickedLocation.latitude}, Longitude: ${pickedLocation.longitude}", // use the geolocator code to retrieve actual address
+                              );
+                            } else {
+                              print("No location was picked.");
+                            }
                           },
                           child: const Text("Change Location"),
                         ),
